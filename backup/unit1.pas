@@ -17,9 +17,7 @@ type
     Button2: TButton;
     CheckBox1: TCheckBox;
     Edit1: TEdit;
-    Edit2: TEdit;
     Label1: TLabel;
-    Label2: TLabel;
     Greckie: TRadioButton;
     Arabskie: TRadioButton;
     Rzymskie: TRadioButton;
@@ -95,7 +93,82 @@ result:='';
       end;
     end;
   end;
+function rzym2arab(numer1:string; dl:integer):integer;
 
+var i, j:integer;
+begin
+
+    result:=0;
+    i:=0;
+    j:=1;
+
+  while ((j<=dl) and (i<RZYM_L)) do
+     begin
+       if (numer1[j] = rzymski[i]) then
+       begin
+        result:= result + arabskie1[i];
+          j:=j+1;
+       end
+       else if ((i mod 2 =0) and (i<RZYM_L-2) and (j<=dl-1) and (numer1[j] = rzymski[i+2]) and (numer1[j+1]=rzymski[i])) then
+       begin
+        result := result + (arabskie1[i] - arabskie1[i+2]);
+        j:=j+2;
+        i:=i+1;
+       end
+       else if ((i mod 2 = 1) and (i<RZYM_L-1) and (j<=dl-1) and (numer1[j] = rzymski[i+1]) and (numer1[j+1] = rzymski[i])) then
+       begin
+        result:=result + (arabskie1[i] - arabskie1[i+1]);
+        j:=j+2;
+        i:=i+1;
+       end
+       else
+       begin
+         i:=i+1;
+       end;
+
+       if (i=RZYM_L) then begin
+        result:=-1;
+        end;
+    end;
+
+end;
+function arab2grek(numer1:integer):string;
+var i:integer;
+begin
+  i:=0;
+
+  while((numer1>0)and(i<GRECKIE_L)) do
+       begin
+            if (numer1>=arabskie21[i])then
+            begin
+                 result:=result+grecki1[i];
+                 numer1:=numer1 mod 100;
+                 break;
+            end;
+                i:=i+1;
+       end;
+           i:=0;
+       while((numer1>0)and(i<GRECKIE_L)) do
+       begin
+            if (numer1>=arabskie22[i])then
+            begin
+                 result:=result+grecki2[i];
+                 numer1:=numer1 mod 10;
+                 break;
+            end;
+                 i:=i+1;
+       end;
+        i:=0;
+        while((numer1>0)and(i<GRECKIE_L)) do
+        begin
+             if (numer1>=arabskie23[i])then
+             begin
+                  result:=result+grecki3[i];
+                  break;
+             end;
+             i:=i+1;
+        end;
+end;
 
 procedure TForm1.Edit1Change(Sender: TObject);
 
@@ -107,9 +180,6 @@ procedure TForm1.Edit1DblClick(Sender: TObject);
 begin
   Edit1.Text:='';
 end;
-
-
-
 
 procedure TForm1.Button1Click(Sender: TObject);
 var i, j, numer1, numer2, numer3:integer;
@@ -137,6 +207,10 @@ begin
 
     end else if (numer1<=0) then begin
       exit;
+    end else if ((numer1 > 3899) and (CheckBox1.Checked = false)) then
+    begin
+      Edit1.text:='Zbyt duża liczba';
+      exit;
     end;
 
     i:=0;
@@ -147,7 +221,12 @@ begin
   else if Greckie.Checked = True then
   begin
 
-    if (numer1>=10000) then
+    if (numer1 >= 10000000) then begin
+      Edit1.Text:='Przekroczono zakres';
+      exit;
+    end;
+
+    if ((numer1>=10000) and (numer1<1000000)) then
     begin
       if (CheckBox1.Checked = True) then
       begin
@@ -155,38 +234,8 @@ begin
         numer3:=numer1 div 10000;
         numer1:=numer1 mod 10000;
 
-      while((numer3>0)and(i<GRECKIE_L)) do
-       begin
-            if (numer3>=arabskie21[i])then
-            begin
-                 Edit1.Text:=Edit1.Text+grecki1[i];
-                 numer3:=numer3 mod 100;
-                 break;
-            end;
-                i:=i+1;
-       end;
-           i:=0;
-       while((numer3>0)and(i<GRECKIE_L)) do
-       begin
-            if (numer3>=arabskie22[i])then
-            begin
-                 Edit1.Text:=Edit1.Text+grecki2[i];
-                 numer3:=numer3 mod 10;
-                 break;
-            end;
-                 i:=i+1;
-       end;
-        i:=0;
-        while((numer3>0)and(i<GRECKIE_L)) do
-        begin
-             if (numer3>=arabskie23[i])then
-             begin
-                  Edit1.Text:=Edit1.Text+grecki3[i];
-                  break;
-             end;
-             i:=i+1;
-        end;
-        Edit1.Text:=Edit1.Text+'M';
+        Edit1.Text:=arab2grek(numer3);
+        Edit1.Text:=Edit1.Text+'M ';
 
       end;
     end;
@@ -201,15 +250,7 @@ begin
            numer1:=numer1 mod 1000;
 
 
-         while((numer2>0)and(i<GRECKIE_L)) do
-         begin
-              if (numer2>=arabskie23[i])then
-                 begin
-                      Edit1.Text:=Edit1.Text+grecki3[i];
-                      break;
-                 end;
-              i:=i+1;
-         end;
+         Edit1.Text:=arab2grek(numer2);
          Edit1.Text:=Edit1.Text+'ι ';
 
       end;
@@ -219,37 +260,7 @@ begin
     if (numer1<1000) then
        begin
 
-            while((numer1>0)and(i<GRECKIE_L)) do
-       begin
-            if (numer1>=arabskie21[i])then
-            begin
-                 Edit1.Text:=Edit1.text+grecki1[i];
-                 numer1:=numer1 mod 100;
-                 break;
-            end;
-                i:=i+1;
-       end;
-           i:=0;
-       while((numer1>0)and(i<GRECKIE_L)) do
-       begin
-            if (numer1>=arabskie22[i])then
-            begin
-                 Edit1.Text:=Edit1.Text+grecki2[i];
-                 numer1:=numer1 mod 10;
-                 break;
-            end;
-                 i:=i+1;
-       end;
-        i:=0;
-        while((numer1>0)and(i<GRECKIE_L)) do
-        begin
-             if (numer1>=arabskie23[i])then
-             begin
-                  Edit1.Text:=Edit1.Text+grecki3[i];
-                  break;
-             end;
-             i:=i+1;
-        end;
+            Edit1.Text:=arab2grek(numer1);
        end;
 
 
@@ -264,8 +275,8 @@ begin
   wynik:=0;
   i:=0;
   j:=1;
-  dl:= length(Edit2.Text);
-  numer1:=Edit2.Text;
+  dl:= length(Edit1.Text);
+  numer1:=Edit1.Text;
 
 
 
@@ -275,44 +286,16 @@ begin
     exit;
   end;
 
-  Edit2.Text:='';
-  //Edit2.Text:=StrToInt(Edit2.Text);
-
+  Edit1.Text:='';
 
   if Arabskie.Checked = true then begin
-   //if Edit2.Text[1] = '|' then begin
 
-   //end;
+   Edit1.Text:=IntToStr(rzym2arab(numer1, dl));
 
-   while ((j<=dl) and (i<RZYM_L)) do
-   begin
-     if (numer1[j] = rzymski[i]) then
-     begin
-      wynik:= wynik + arabskie1[i];
-        j:=j+1;
-     end
-     else if ((i mod 2 =0) and (i<RZYM_L-2) and (j<=dl-1) and (numer1[j] = rzymski[i+2]) and (numer1[j+1]=rzymski[i])) then
-     begin
-      wynik := wynik + (arabskie1[i] - arabskie1[i+2]);
-      j:=j+2;
-      i:=i+1;
-     end
-     else if ((i mod 2 = 1) and (i<RZYM_L-1) and (j<=dl-1) and (numer1[j] = rzymski[i+1]) and (numer1[j+1] = rzymski[i])) then
-     begin
-      wynik:=wynik + (arabskie1[i] - arabskie1[i+1]);
-      j:=j+2;
-      i:=i+1;
-     end
-     else
-     begin
-       i:=i+1;
-     end;
+   if Greckie.Checked = true then begin
+    Edit1.Text:=IntToStr(rzym2arab(numer1, dl));
 
-     if (i=RZYM_L) then begin
-      wynik:=-1;
-      end;
-  end;
-   Edit2.Text:=IntToStr(wynik);
+   end;
 end;
 
 end;
