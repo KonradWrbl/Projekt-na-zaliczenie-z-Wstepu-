@@ -55,6 +55,47 @@ grecki1: Array[0..GRECKIE_L-1] of String = ('Ϡ', 'ω', 'ψ', 'χ', 'φ', 'υ', 
 grecki2: Array[0..GRECKIE_L-1] of String = ('Ϟ', 'π', 'ο', 'ξ', 'ν', 'μ', 'λ', 'κ', 'ι');
 grecki3: Array[0..GRECKIE_L-1] of String = ('θ', 'η', 'ζ', 'Ϝ', 'ε', 'δ', 'γ', 'β', 'α');
 
+function arab2rzym(numer1: integer): string;
+var i: integer;
+begin
+i:=0;
+result:='';
+
+    while ((numer1 > 0) and (i < RZYM_L)) do
+    begin
+      if (numer1 >= arabskie1[i]) then
+      begin
+        numer1 := numer1 - arabskie1[i];
+        result := result + rzymski[i];
+      end
+
+      else if ((i mod 2 = 0) and
+      (i < RZYM_L-2) and                                         // dla 9xx
+      (numer1 >= arabskie1[i] - arabskie1[i+2]) and
+      (arabskie1[i+2] <> arabskie1[i] - arabskie1[i+2])) then
+      begin
+        numer1 := numer1 - (arabskie1[i] - arabskie1[i+2]);
+        result:= result + rzymski[i+2] + rzymski[i];
+        i := i+1;
+      end
+
+      else if ((i mod 2 = 1) and          //dla 4xx
+      (i < RZYM_L-1) and
+      (numer1 >= arabskie1[i] - arabskie1[i+1]) and
+      (arabskie1[i+1] <> arabskie1[i] - arabskie1[i+1])) then
+      begin
+        numer1 := numer1 - (arabskie1[i] - arabskie1[i+1]);
+        result := result + rzymski[i+1] + rzymski[i];
+        i := i+1;
+      end
+
+      else
+      begin
+        i:=i+1;
+      end;
+    end;
+  end;
+
 
 procedure TForm1.Edit1Change(Sender: TObject);
 
@@ -91,80 +132,20 @@ begin
         numer2:=numer1 div 100;
         numer1:=numer1 mod 100;
 
-        while ((numer2 > 0) and (i < RZYM_L)) do
-    begin
-      if (numer2 >= arabskie1[i]) then
-      begin
-        numer2 := numer2 - arabskie1[i];
-        Edit1.Text := Edit1.Text + rzymski[i];
-      end
-
-      else if ((i mod 2 = 0) and
-      (i < RZYM_L-2) and                                         // dla 9xx
-      (numer2 >= arabskie1[i] - arabskie1[i+2]) and
-      (arabskie1[i+2] <> arabskie1[i] - arabskie1[i+2])) then
-      begin
-        numer2 := numer2 - (arabskie1[i] - arabskie1[i+2]);
-        Edit1.Text:= Edit1.Text + rzymski[i+2] + rzymski[i];
-        i := i+1;
-      end
-
-      else if ((i mod 2 = 1) and          //dla 4xx
-      (i < RZYM_L-1) and
-      (numer2 >= arabskie1[i] - arabskie1[i+1]) and
-      (arabskie1[i+1] <> arabskie1[i] - arabskie1[i+1])) then
-      begin
-        numer2 := numer2 - (arabskie1[i] - arabskie1[i+1]);
-        Edit1.Text := Edit1.Text + rzymski[i+1] + rzymski[i];
-        i := i+1;
-      end
-
-      else
-      begin
-        i:=i+1;
-      end;
-    end;
+        Edit1.Text:=Edit1.text + arab2rzym(numer2);
         Edit1.Text:='|'+Edit1.text+'|';
 
     end else if (numer1<=0) then begin
+      exit;
+    end else if ((numer1 > 3899) and (CheckBox1.Checked = false)) then
+    begin
+      Edit1.text:='Zbyt duża liczba';
       exit;
     end;
 
     i:=0;
 
-    while ((numer1 > 0) and (i < RZYM_L)) do
-    begin
-      if (numer1 >= arabskie1[i]) then
-      begin
-        numer1 := numer1 - arabskie1[i];
-        Edit1.Text := Edit1.Text + rzymski[i];
-      end
-
-      else if ((i mod 2 = 0) and
-      (i < RZYM_L-2) and                                         // dla 9xx
-      (numer1 >= arabskie1[i] - arabskie1[i+2]) and
-      (arabskie1[i+2] <> arabskie1[i] - arabskie1[i+2])) then
-      begin
-        numer1 := numer1 - (arabskie1[i] - arabskie1[i+2]);
-        Edit1.Text:= Edit1.Text + rzymski[i+2] + rzymski[i];
-        i := i+1;
-      end
-
-      else if ((i mod 2 = 1) and          //dla 4xx
-      (i < RZYM_L-1) and
-      (numer1 >= arabskie1[i] - arabskie1[i+1]) and
-      (arabskie1[i+1] <> arabskie1[i] - arabskie1[i+1])) then
-      begin
-        numer1 := numer1 - (arabskie1[i] - arabskie1[i+1]);
-        Edit1.Text := Edit1.Text + rzymski[i+1] + rzymski[i];
-        i := i+1;
-      end
-
-      else
-      begin
-        i:=i+1;
-      end;
-    end;
+    Edit1.Text:=Edit1.Text + arab2rzym(numer1);
   end
 
   else if Greckie.Checked = True then
@@ -281,20 +262,64 @@ begin
   end;
 
 procedure TForm1.Button2Click(Sender: TObject);
+var i, j, dl, wynik : integer;
+var numer1:string;
 begin
+  wynik:=0;
+  i:=0;
+  j:=1;
+  dl:= length(Edit2.Text);
+  numer1:=Edit2.Text;
 
-  if ((Edit1.Text <= '0') or (Edit1.Text >= '9')) then begin
-     Edit2.Text := 'Podaj liczbe Rzymską!';
-     exit;
-  end else begin
-  end;
+
+
 
 
   if Rzymskie.checked = true then begin
     exit;
   end;
+
+  Edit2.Text:='';
+  //Edit2.Text:=StrToInt(Edit2.Text);
+
+
+  if Arabskie.Checked = true then begin
+   //if Edit2.Text[1] = '|' then begin
+
+   //end;
+
+   while ((j<=dl) and (i<RZYM_L)) do
+   begin
+     if (numer1[j] = rzymski[i]) then
+     begin
+      wynik:= wynik + arabskie1[i];
+        j:=j+1;
+     end
+     else if ((i mod 2 =0) and (i<RZYM_L-2) and (j<=dl-1) and (numer1[j] = rzymski[i+2]) and (numer1[j+1]=rzymski[i])) then
+     begin
+      wynik := wynik + (arabskie1[i] - arabskie1[i+2]);
+      j:=j+2;
+      i:=i+1;
+     end
+     else if ((i mod 2 = 1) and (i<RZYM_L-1) and (j<=dl-1) and (numer1[j] = rzymski[i+1]) and (numer1[j+1] = rzymski[i])) then
+     begin
+      wynik:=wynik + (arabskie1[i] - arabskie1[i+1]);
+      j:=j+2;
+      i:=i+1;
+     end
+     else
+     begin
+       i:=i+1;
+     end;
+
+     if (i=RZYM_L) then begin
+      wynik:=-1;
+      end;
+  end;
+   Edit2.Text:=IntToStr(wynik);
 end;
 
+end;
 
 procedure TForm1.Label1Click(Sender: TObject);
 begin
