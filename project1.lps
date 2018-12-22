@@ -22,8 +22,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="111"/>
-        <CursorPos Y="57"/>
+        <TopLine Value="72"/>
+        <CursorPos X="31" Y="91"/>
         <FoldState Value=" T0kf2{R T3nO0Dl"/>
         <UsageCount Value="44"/>
         <Loaded Value="True"/>
@@ -32,7 +32,7 @@
       <Unit2>
         <Filename Value="unit1.lfm"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit2>

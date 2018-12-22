@@ -56,7 +56,6 @@ grecki2: Array[0..GRECKIE_L-1] of String = ('Ϟ', 'π', 'ο', 'ξ', 'ν', 'μ', 
 grecki3: Array[0..GRECKIE_L-1] of String = ('θ', 'η', 'ζ', 'Ϝ', 'ε', 'δ', 'γ', 'β', 'α');
 
 
-
 procedure TForm1.Edit1Change(Sender: TObject);
 
 begin

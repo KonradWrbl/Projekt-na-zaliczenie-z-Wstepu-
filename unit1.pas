@@ -88,8 +88,8 @@ begin
   begin
     if ((numer1 > 3899) and (CheckBox1.Checked = true)) then
     begin
-        numer2:=numer1 div 1000;
-        numer1:=numer1 mod 1000;
+        numer2:=numer1 div 100;
+        numer1:=numer1 mod 100;
 
         while ((numer2 > 0) and (i < RZYM_L)) do
     begin
