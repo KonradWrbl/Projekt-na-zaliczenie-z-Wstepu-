@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 1488
+  Left = 1349
   Height = 563
-  Top = 305
+  Top = 282
   Width = 690
   Caption = 'Form1'
   ClientHeight = 563
@@ -43,7 +43,7 @@ object Form1: TForm1
   object Button1: TButton
     Left = 16
     Height = 29
-    Top = 176
+    Top = 136
     Width = 149
     Caption = 'Zamień na wybraną'
     OnClick = Button1Click
@@ -52,9 +52,10 @@ object Form1: TForm1
   object Button2: TButton
     Left = 184
     Height = 29
-    Top = 176
+    Top = 136
     Width = 148
     Caption = 'Zamień na wybraną'
+    OnClick = Button2Click
     TabOrder = 3
   end
   object Rzymskie: TRadioButton
@@ -68,19 +69,27 @@ object Form1: TForm1
     TabStop = True
   end
   object Greckie: TRadioButton
-    Left = 16
+    Left = 120
     Height = 19
-    Top = 128
+    Top = 96
     Width = 59
     Caption = 'Greckie'
     TabOrder = 5
   end
   object CheckBox1: TCheckBox
-    Left = 18
+    Left = 128
     Height = 19
-    Top = 219
-    Width = 139
-    Caption = 'Zwiększ zakres (>3999)'
+    Top = 176
+    Width = 96
+    Caption = 'Zwiększ zakres'
     TabOrder = 6
+  end
+  object Arabskie: TRadioButton
+    Left = 216
+    Height = 19
+    Top = 96
+    Width = 65
+    Caption = 'Arabskie'
+    TabOrder = 7
   end
 end
