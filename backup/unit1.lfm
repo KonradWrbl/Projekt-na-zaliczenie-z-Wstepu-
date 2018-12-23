@@ -51,7 +51,7 @@ object Form1: TForm1
     Height = 39
     Top = 167
     Width = 247
-    Caption = 'Zmień Grecką'
+    Caption = 'Zmień Rzymską'
     OnClick = Button2Click
     TabOrder = 2
   end

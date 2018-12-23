@@ -226,7 +226,7 @@ begin
       exit;
     end;
 
-    if ((numer1>=10000) and (numer1<1000000)) then
+    if ((numer1>=10000) and (numer1<10000000)) then
     begin
       if (CheckBox1.Checked = True) then
       begin
@@ -269,14 +269,13 @@ begin
   end;
 
 procedure TForm1.Button2Click(Sender: TObject);
-var i, j, dl, wynik : integer;
+var dl: integer;
 var numer1:string;
+var numer2:integer;
 begin
-  wynik:=0;
-  i:=0;
-  j:=1;
   dl:= length(Edit1.Text);
   numer1:=Edit1.Text;
+  numer2:=0;
 
 
 
@@ -291,14 +290,17 @@ begin
   if Arabskie.Checked = true then begin
 
    Edit1.Text:=IntToStr(rzym2arab(numer1, dl));
+  end;
 
    if Greckie.Checked = true then begin
     Edit1.Text:=IntToStr(rzym2arab(numer1, dl));
-
+    numer2:=strToInt(Edit1.Text);
+    Edit1.text:='';
+    Edit1.Text:=arab2grek(numer2);
    end;
 end;
 
-end;
+
 
 procedure TForm1.Label1Click(Sender: TObject);
 begin

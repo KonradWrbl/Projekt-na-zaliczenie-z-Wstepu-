@@ -170,6 +170,47 @@ begin
         end;
 end;
 
+function arab2grek2(numer1:integer):string;
+var i:integer;
+begin
+  result:='';
+  i:=0;
+
+  while((numer1>0)and(i<GRECKIE_L)) do
+       begin
+            if (numer1>=arabskie21[i])then
+            begin
+                 result:=result+grecki1[i];
+                 numer1:=numer1 mod 100;
+                 break;
+            end;
+                i:=i+1;
+       end;
+           i:=0;
+       while((numer1>0)and(i<GRECKIE_L)) do
+       begin
+            if (numer1>=arabskie22[i])then
+            begin
+                 result:=result+grecki2[i];
+                 numer1:=numer1 mod 10;
+                 break;
+            end;
+                 i:=i+1;
+       end;
+        i:=0;
+        while((numer1>0)and(i<GRECKIE_L)) do
+        begin
+             if (numer1>=arabskie23[i])then
+             begin
+                  result:=result+grecki3[i];
+                  break;
+             end;
+             i:=i+1;
+        end;
+end;
+
+
+
 procedure TForm1.Edit1Change(Sender: TObject);
 
 begin
@@ -269,14 +310,13 @@ begin
   end;
 
 procedure TForm1.Button2Click(Sender: TObject);
-var i, j, dl, wynik : integer;
+var dl: integer;
 var numer1:string;
+var numer2:integer;
 begin
-  wynik:=0;
-  i:=0;
-  j:=1;
   dl:= length(Edit1.Text);
   numer1:=Edit1.Text;
+  numer2:=0;
 
 
 
@@ -291,14 +331,16 @@ begin
   if Arabskie.Checked = true then begin
 
    Edit1.Text:=IntToStr(rzym2arab(numer1, dl));
+  end;
 
    if Greckie.Checked = true then begin
     Edit1.Text:=IntToStr(rzym2arab(numer1, dl));
-
+    numer2:=strToInt(Edit1.Text);
+    Edit1.Text:=arab2grek2(numer2);
    end;
 end;
 
-end;
+
 
 procedure TForm1.Label1Click(Sender: TObject);
 begin
