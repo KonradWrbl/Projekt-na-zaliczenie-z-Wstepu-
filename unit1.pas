@@ -311,12 +311,12 @@ begin
 
 procedure TForm1.Button2Click(Sender: TObject);
 var dl: integer;
-var numer1:string;
-var numer2:integer;
+var liczba1:string;
+var liczba2, numer1, numer2, numer3:integer;
 begin
   dl:= length(Edit1.Text);
-  numer1:=Edit1.Text;
-  numer2:=0;
+  liczba1:=Edit1.Text;
+  liczba2:=0;
 
 
 
@@ -330,13 +330,63 @@ begin
 
   if Arabskie.Checked = true then begin
 
-   Edit1.Text:=IntToStr(rzym2arab(numer1, dl));
+   Edit1.Text:=IntToStr(rzym2arab(liczba1, dl));
   end;
 
    if Greckie.Checked = true then begin
-    Edit1.Text:=IntToStr(rzym2arab(numer1, dl));
-    numer2:=strToInt(Edit1.Text);
-    Edit1.Text:=arab2grek2(numer2);
+    Edit1.Text:=IntToStr(rzym2arab(liczba1, dl));
+    liczba2:=strToInt(Edit1.Text);
+
+     if (liczba2 >= 10000000) then begin
+      Edit1.Text:='Przekroczono zakres';
+      exit;
+    end;
+
+     if ((liczba2 >= 1000) and (Checkbox1.Checked = false)) then begin
+      Edit1.Text:='Przekroczono zakres';
+      exit;
+    end;
+
+    if ((liczba2>=10000) and (liczba2<10000000)) then
+    begin
+      if (CheckBox1.Checked = True) then
+      begin
+
+        numer3:=liczba2 div 10000;
+        liczba2:=liczba2 mod 10000;
+
+        Edit1.Text:=arab2grek(numer3);
+        Edit1.Text:=Edit1.Text+'M ';
+
+      end;
+    end;
+
+    if (liczba2>=1000) and (liczba2<10000) then
+    begin
+      if (CheckBox1.Checked = True) then
+      begin
+
+
+           numer2:=liczba2 div 1000;
+           liczba2:=liczba2 mod 1000;
+
+
+         Edit1.Text:=arab2grek(numer2);
+         Edit1.Text:=Edit1.Text+'ι ';
+
+      end;
+    end;
+
+
+    if (liczba2<1000) then
+       begin
+
+            Edit1.Text:=arab2grek(liczba2);
+       end;
+
+
+
+    //Edit1.Text:=arab2grek2(numer2);
    end;
 end;
 

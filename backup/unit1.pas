@@ -170,6 +170,47 @@ begin
         end;
 end;
 
+function arab2grek2(numer1:integer):string;
+var i:integer;
+begin
+  result:='';
+  i:=0;
+
+  while((numer1>0)and(i<GRECKIE_L)) do
+       begin
+            if (numer1>=arabskie21[i])then
+            begin
+                 result:=result+grecki1[i];
+                 numer1:=numer1 mod 100;
+                 break;
+            end;
+                i:=i+1;
+       end;
+           i:=0;
+       while((numer1>0)and(i<GRECKIE_L)) do
+       begin
+            if (numer1>=arabskie22[i])then
+            begin
+                 result:=result+grecki2[i];
+                 numer1:=numer1 mod 10;
+                 break;
+            end;
+                 i:=i+1;
+       end;
+        i:=0;
+        while((numer1>0)and(i<GRECKIE_L)) do
+        begin
+             if (numer1>=arabskie23[i])then
+             begin
+                  result:=result+grecki3[i];
+                  break;
+             end;
+             i:=i+1;
+        end;
+end;
+
+
+
 procedure TForm1.Edit1Change(Sender: TObject);
 
 begin
@@ -270,12 +311,12 @@ begin
 
 procedure TForm1.Button2Click(Sender: TObject);
 var dl: integer;
-var numer1:string;
-var numer2:integer;
+var liczba1:string;
+var liczba2, numer1, numer2, numer3:integer;
 begin
   dl:= length(Edit1.Text);
-  numer1:=Edit1.Text;
-  numer2:=0;
+  liczba1:=Edit1.Text;
+  liczba2:=0;
 
 
 
@@ -289,14 +330,58 @@ begin
 
   if Arabskie.Checked = true then begin
 
-   Edit1.Text:=IntToStr(rzym2arab(numer1, dl));
+   Edit1.Text:=IntToStr(rzym2arab(liczba1, dl));
   end;
 
    if Greckie.Checked = true then begin
-    Edit1.Text:=IntToStr(rzym2arab(numer1, dl));
-    numer2:=strToInt(Edit1.Text);
-    Edit1.text:='';
-    Edit1.Text:=arab2grek(numer2);
+    Edit1.Text:=IntToStr(rzym2arab(liczba1, dl));
+    liczba2:=strToInt(Edit1.Text);
+
+     if (liczba2 >= 10000000) then begin
+      Edit1.Text:='Przekroczono zakres';
+      exit;
+    end;
+
+    if ((liczba2>=10000) and (liczba2<10000000)) then
+    begin
+      if (CheckBox1.Checked = True) then
+      begin
+
+        numer3:=liczba2 div 10000;
+        liczba2:=liczba2 mod 10000;
+
+        Edit1.Text:=arab2grek(numer3);
+        Edit1.Text:=Edit1.Text+'M ';
+
+      end;
+    end;
+
+    if (liczba2>=1000) and (liczba2<10000) then
+    begin
+      if (CheckBox1.Checked = True) then
+      begin
+
+
+           numer2:=liczba2 div 1000;
+           liczba2:=liczba2 mod 1000;
+
+
+         Edit1.Text:=arab2grek(numer2);
+         Edit1.Text:=Edit1.Text+'ι ';
+
+      end;
+    end;
+
+
+    if (liczba2<1000) then
+       begin
+
+            Edit1.Text:=arab2grek(liczba2);
+       end;
+
+
+
+    //Edit1.Text:=arab2grek2(numer2);
    end;
 end;
 
