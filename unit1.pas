@@ -367,7 +367,7 @@ begin
          j:=1;
          d:=i;
 
-         while (d+1<>length(liczba1)+1) do begin
+         while (d<>length(liczba1)) do begin
            c:=c+1;
            d:=d+1;
          end;

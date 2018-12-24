@@ -390,7 +390,52 @@ begin
   end;
 
    if Greckie.Checked = true then begin
-    Edit1.Text:=IntToStr(rzym2arab(liczba1, dl));
+
+       if (liczba1[1] = '|') and (CheckBox1.Checked = true) then
+       begin
+
+         while (liczba1[i] <> '|') do begin
+           c:=c+1;
+           i:=i+1;
+         end;
+
+         setlength(tab,c);
+         i:=2;
+
+         while (liczba1[i] <> '|') do begin
+           tab[j]:=liczba1[i];
+           i:=i+1;
+           j:=j+1;
+
+         end;
+         dl:=c;
+         k:=rzym2arab(tab, dl);
+
+         c:=0;
+         j:=1;
+         d:=i;
+
+         while (d+1<>length(liczba1)+1) do begin
+           c:=c+1;
+           d:=d+1;
+         end;
+
+         setlength(tab2,c);
+
+
+         while (i+1<>length(liczba1)+1) do begin
+           tab2[j]:=liczba1[i+1];
+           i:=i+1;
+           j:=j+1;
+         end;
+         liczba1:=tab2;
+         dl:=length(liczba1);
+       end;
+
+    k:=k*100;
+
+   Edit1.Text:=IntToStr(k+rzym2arab(tab2, c));
+
     liczba2:=strToInt(Edit1.Text);
 
      if (liczba2 >= 10000000) then begin
