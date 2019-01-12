@@ -339,12 +339,14 @@ begin
     exit;
   end;
 
-  Edit1.Text:='';
+
 
   if Arabskie.Checked = true then begin
 
     if (liczba1[1] = '|') and (CheckBox1.Checked = true) then
        begin
+
+         Edit1.Text:='';
 
          while (liczba1[i] <> '|') do begin
            c:=c+1;
@@ -382,11 +384,12 @@ begin
          end;
          liczba1:=tab2;
          dl:=length(liczba1);
-       end;
+         k:=k*100;
+         Edit1.Text:=IntToStr(k+rzym2arab(tab2, c));
 
-    k:=k*100;
+       end else Edit1.Text:=IntToStr(rzym2arab(liczba1, dl));
 
-   Edit1.Text:=IntToStr(k+rzym2arab(tab2, c));
+
   end;
 
    if Greckie.Checked = true then begin
@@ -430,13 +433,16 @@ begin
          end;
          liczba1:=tab2;
          dl:=length(liczba1);
-       end;
+         k:=k*100;
+         Edit1.Text:=IntToStr(k+rzym2arab(liczba1, c));
 
-    k:=k*100;
+       end else Edit1.Text:=IntToStr(rzym2arab(liczba1, dl));
 
-   Edit1.Text:=IntToStr(k+rzym2arab(tab2, c));
+
+
 
     liczba2:=strToInt(Edit1.Text);
+    Edit1.Text:='';
 
      if (liczba2 >= 10000000) then begin
       Edit1.Text:='Przekroczono zakres';
@@ -445,7 +451,7 @@ begin
 
      if ((liczba2 >= 1000) and (Checkbox1.Checked = false)) then begin
       Edit1.Text:='Przekroczono zakres';
-      exit;
+      //exit;
     end;
 
     if ((liczba2>=10000) and (liczba2<10000000)) then
@@ -456,10 +462,10 @@ begin
         numer3:=liczba2 div 10000;
         liczba2:=liczba2 mod 10000;
 
-        Edit1.Text:=arab2grek(numer3);
-        Edit1.Text:=Edit1.Text+'M ';
+        Edit1.Text:=arab2grek2(numer3)+'M ';
+        //Edit1.Text:=Edit1.Text+'M ';
 
-      end;
+      end; //else Edit1.Text:='Przekroczono zakres';
     end;
 
     if (liczba2>=1000) and (liczba2<10000) then
@@ -492,11 +498,9 @@ begin
 end;
 
 
-
 procedure TForm1.Label1Click(Sender: TObject);
 begin
 
 end;
 
 end.
-
