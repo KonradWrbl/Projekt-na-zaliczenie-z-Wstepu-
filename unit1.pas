@@ -223,9 +223,9 @@ begin
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
-var i, j, numer1, numer2, numer3:integer;
+var numer1, numer2, numer3:integer;
 begin
-  i:= 0;
+
 
   if ((Edit1.Text <= '/') or (Edit1.Text >= ':')) then begin
      Edit1.Text := 'Podaj liczbe Arabska!';
@@ -254,7 +254,7 @@ begin
       exit;
     end;
 
-    i:=0;
+
 
     Edit1.Text:=Edit1.Text + arab2rzym(numer1);
   end
@@ -311,11 +311,9 @@ begin
 
 procedure TForm1.Button2Click(Sender: TObject);
 
-type TString = Array of String;
-
 var dl: integer;
 var liczba1:string;
-var i, j, k, c, d, liczba2, numer1, numer2, numer3:integer;
+var i, j, k, c, d, liczba2, numer2, numer3:integer;
 
 
 var tab, tab2:String;
@@ -330,7 +328,7 @@ begin
   c:=0;
   tab:='';
   tab2:='';
-  //liczba3:=Edit1.Text;
+
 
 
 
@@ -451,7 +449,7 @@ begin
 
      if ((liczba2 >= 1000) and (Checkbox1.Checked = false)) then begin
       Edit1.Text:='Przekroczono zakres';
-      //exit;
+
     end;
 
     if ((liczba2>=10000) and (liczba2<10000000)) then
@@ -463,9 +461,9 @@ begin
         liczba2:=liczba2 mod 10000;
 
         Edit1.Text:=arab2grek2(numer3)+'M ';
-        //Edit1.Text:=Edit1.Text+'M ';
 
-      end; //else Edit1.Text:='Przekroczono zakres';
+
+      end;
     end;
 
     if (liczba2>=1000) and (liczba2<10000) then
@@ -493,7 +491,7 @@ begin
 
 
 
-    //Edit1.Text:=arab2grek2(numer2);
+
    end;
 end;
 
